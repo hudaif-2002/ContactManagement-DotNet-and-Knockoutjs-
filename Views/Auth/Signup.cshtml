@@ -1,0 +1,114 @@
+﻿ 
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .signup-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+            .signup-container h2 {
+                margin-bottom: 20px;
+                color: #343a40;
+            }
+
+        #message {
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="signup-container">
+        <h2 class="text-center">Signup</h2>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="FullName">Full Name</label>
+                <input type="text" class="form-control" id="FullName" name="FullName" placeholder="Enter your full name" required />
+            </div>
+            <div class="form-group">
+                <label for="Email">Email</label>
+                <input type="email" class="form-control" id="Email" name="Email" placeholder="Enter your email" required />
+            </div>
+            <div class="form-group">
+                <label for="PasswordHash">Password</label>
+                <input type="password" class="form-control" id="PasswordHash" name="PasswordHash" placeholder="Enter your password" required />
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Signup</button>
+        </form>
+        <p id="message" class="text-center"></p>
+        <div class="text-center mt-3">
+            <p>Already have an account? <a href="/auth/login">Login here</a></p>
+        </div>
+    </div>
+
+    <script>
+        const signupForm = document.getElementById('signupForm');
+        const message = document.getElementById('message');
+
+        signupForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent the default form submission
+
+            const fullName = document.getElementById('FullName').value;
+            const email = document.getElementById('Email').value;
+            const passwordHash = document.getElementById('PasswordHash').value;
+
+            try {
+                const response = await fetch('/auth/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ fullName, email, passwordHash }),
+                });
+
+                if (response.ok) {
+                    // Show success message and redirect to login page
+                    message.style.color = 'green';
+                    message.textContent = 'Signup successful! Redirecting to login page...';
+                    setTimeout(() => {
+                        window.location.href = '/auth/login'; // Redirect to the login page
+                    }, 2000); // Wait for 2 seconds before redirecting
+                } else {
+                    // Show error message
+                    const errorData = await response.json();
+                    message.style.color = 'red';
+                    message.textContent = errorData.message || 'Signup failed. Please try again.';
+                }
+            } catch (error) {
+                console.error('Error during signup:', error);
+                message.style.color = 'red';
+                message.textContent = 'An unexpected error occurred. Please try again later.';
+            }
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+ 

@@ -1,0 +1,68 @@
+﻿@*  @model List<ContactModel>
+
+ <h2>Manage Contacts</h2>
+ <table>
+     <thead>
+         <tr><th>Name</th><th>Email</th><th>Phone</th><th>Company</th><th>Actions</th></tr>
+     </thead>
+     <tbody data-bind="foreach: contacts">
+         <tr>
+             <td data-bind="text: Name"></td>
+             <td data-bind="text: Email"></td>
+             <td data-bind="text: Phone"></td>
+             <td data-bind="text: Company"></td>
+             <td>
+                 <button data-bind="click: $parent.deleteContact">Delete</button>
+             </td>
+         </tr>
+     </tbody>
+ </table>
+
+ <form data-bind="submit: addContact">
+     <input type="text" placeholder="Name" data-bind="value: newName" required />
+     <input type="email" placeholder="Email" data-bind="value: newEmail" required />
+     <input type="text" placeholder="Phone" data-bind="value: newPhone" required />
+     <input type="text" placeholder="Company" data-bind="value: newCompany" required />
+     <button type="submit">Add Contact</button>
+ </form>
+ <script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.js"></script>
+
+ <script>
+     function ContactViewModel() {
+         var self = this;
+
+         // Convert server-side model into a JavaScript array using Json.Serialize
+         self.contacts = ko.observableArray(@Html.Raw(Json.Serialize(Model)));
+
+         // Observable fields for adding new contact
+         self.newName = ko.observable("");
+         self.newEmail = ko.observable("");
+         self.newPhone = ko.observable("");
+         self.newCompany = ko.observable("");
+
+         // Add a new contact
+         self.addContact = function () {
+             var contact = {
+                 Name: self.newName(),
+                 Email: self.newEmail(),
+                 Phone: self.newPhone(),
+                 Company: self.newCompany()
+             };
+
+             // Perform AJAX call to add new contact
+             $.post('/Contacts/AddContact', contact, function () {
+                 self.contacts.push(contact);  // Add the new contact to the observable array
+             });
+         };
+
+         // Delete a contact
+         self.deleteContact = function (contact) {
+             $.post('/Contacts/DeleteContact', { contactId: contact.ContactId }, function () {
+                 self.contacts.remove(contact);  // Remove the contact from the observable array
+             });
+         };
+     }
+
+     // Apply Knockout.js bindings
+     ko.applyBindings(new ContactViewModel());
+ </script> *@

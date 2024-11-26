@@ -1,0 +1,39 @@
+﻿ @model IEnumerable<ContactManagement.Models.ContactModel>
+@{
+    Layout = "_Layout"; // Ensure the correct layout is being used
+}
+<h2>Contacts</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <a href="@Url.Action("Logout", "Auth")" class="btn btn-danger">Logout</a>
+    <a href="@Url.Action("AddContact", "Contacts")" class="btn btn-primary">Add New Contact</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Company</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var contact in Model)
+        {
+            <tr>
+                <td>@contact.Name</td>
+                <td>@contact.Email</td>
+                <td>@contact.Phone</td>
+                <td>@contact.Company</td>
+                <td>
+                    <a href="@Url.Action("EditContact", "Contacts", new { id = contact.ContactId })" class="btn btn-warning">Edit</a>
+                    <form action="@Url.Action("DeleteContact", "Contacts", new { id = contact.ContactId })" method="post" style="display:inline;">
+                        <input type="hidden" name="_method" value="DELETE" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table> 
