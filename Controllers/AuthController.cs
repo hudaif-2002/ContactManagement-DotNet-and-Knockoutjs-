@@ -66,6 +66,32 @@ namespace ContactManagement.Controllers
 
 
 
+        //[HttpPost]
+        //[Route("login")]
+        //public async Task<ActionResult> Login(LoginModel login)
+        //{
+        //    var hashedPassword = HashPassword(login.Password);
+
+        //    var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == login.Email && u.PasswordHash == hashedPassword);
+
+        //    if (user != null)
+        //    {
+        //        // Store UserId in Session
+        //        HttpContext.Session.SetInt32("UserId", user.UserId);
+
+        //        ViewData["FullName"] = user.FullName;
+
+        //        // Redirect to Contacts page
+        //        //return Ok();
+        //        return RedirectToAction("GetAllContacts", "Contacts");
+        //    }
+
+        //    ViewBag.Error = "Invalid login credentials.";
+        //    return View();
+        //}
+
+
+
         [HttpPost]
         [Route("login")]
         public async Task<ActionResult> Login(LoginModel login)
@@ -79,15 +105,12 @@ namespace ContactManagement.Controllers
                 // Store UserId in Session
                 HttpContext.Session.SetInt32("UserId", user.UserId);
 
-                ViewData["FullName"] = user.FullName;
-
-                // Redirect to Contacts page
-                //return Ok();
-                return RedirectToAction("GetAllContacts", "Contacts");
+                // Return JSON with success status
+                return Json(new { success = true, message = "Login successful" });
             }
 
-            ViewBag.Error = "Invalid login credentials.";
-            return View();
+            // Return JSON with failure status
+            return Json(new { success = false, message = "Invalid login credentials." });
         }
 
 
