@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\haham\\source\\repos\\ContactManagement\\ContactManagement.csproj": {}
+    "C:\\Users\\haham\\source\\repos\\ContactManagement-DotNet-and-Knockoutjs-\\ContactManagement.csproj": {}
   },
   "projects": {
-    "C:\\Users\\haham\\source\\repos\\ContactManagement\\ContactManagement.csproj": {
+    "C:\\Users\\haham\\source\\repos\\ContactManagement-DotNet-and-Knockoutjs-\\ContactManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\haham\\source\\repos\\ContactManagement\\ContactManagement.csproj",
+        "projectUniqueName": "C:\\Users\\haham\\source\\repos\\ContactManagement-DotNet-and-Knockoutjs-\\ContactManagement.csproj",
         "projectName": "ContactManagement",
-        "projectPath": "C:\\Users\\haham\\source\\repos\\ContactManagement\\ContactManagement.csproj",
+        "projectPath": "C:\\Users\\haham\\source\\repos\\ContactManagement-DotNet-and-Knockoutjs-\\ContactManagement.csproj",
         "packagesPath": "C:\\Users\\haham\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\haham\\source\\repos\\ContactManagement\\obj\\",
+        "outputPath": "C:\\Users\\haham\\Source\\Repos\\ContactManagement-DotNet-and-Knockoutjs-\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\haham\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -1,4 +1,4 @@
-﻿@model ContactManagement.Models.ContactModel
+﻿@* @model ContactManagement.Models.ContactModel
 
 <h2>Edit Contact</h2>
 
@@ -22,3 +22,84 @@
 
     <button type="submit" class="btn btn-primary">Save Changes</button>
 </form>
+ *@
+
+
+
+ @model ContactManagement.Models.ContactModel
+
+<h2>Edit Contact</h2>
+
+<div>
+    <form data-bind="submit: saveContact">
+        <div class="form-group">
+            <label for="Name">Name</label>
+            <input type="text" class="form-control" id="Name" data-bind="value: name" required />
+        </div>
+        <div class="form-group">
+            <label for="Email">Email</label>
+            <input type="email" class="form-control" id="Email" data-bind="value: email" required />
+        </div>
+        <div class="form-group">
+            <label for="Phone">Phone</label>
+            <input type="text" class="form-control" id="Phone" data-bind="value: phone" required />
+        </div>
+        <div class="form-group">
+            <label for="Company">Company</label>
+            <input type="text" class="form-control" id="Company" data-bind="value: company" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.js"></script>
+
+<script>
+    function EditContactViewModel(initialData) {
+        var self = this;
+
+        // Observables for contact details
+        self.contactId = ko.observable(initialData.contactId);
+        self.name = ko.observable(initialData.name);
+        self.email = ko.observable(initialData.email);
+        self.phone = ko.observable(initialData.phone);
+        self.company = ko.observable(initialData.company);
+
+        // Function to save the contact
+        self.saveContact = function () {
+            var contactData = {
+                ContactId: self.contactId(),
+                Name: self.name(),
+                Email: self.email(),
+                Phone: self.phone(),
+                Company: self.company()
+            };
+
+            $.ajax({
+                url: '/Contacts/Edit/' + contactData.ContactId, // Adjust to your POST endpoint
+                type: 'POST',
+                data: contactData,
+                success: function () {
+                    alert("Contact updated successfully.");
+                    window.location.href = '/Contacts/GetAllContacts'; // Redirect after success
+                },
+                error: function (xhr) {
+                    alert("Error updating contact: " + xhr.responseText);
+                }
+            });
+        };
+    }
+
+    // Initialize the ViewModel with the server-side data
+    var initialContactData = {
+        contactId: @Model.ContactId,
+        name: '@Model.Name',
+        email: '@Model.Email',
+        phone: '@Model.Phone',
+        company: '@Model.Company'
+    };
+
+    ko.applyBindings(new EditContactViewModel(initialContactData));
+</script>

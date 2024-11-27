@@ -1,89 +1,4 @@
-﻿//using Microsoft.AspNetCore.Mvc;
-//using ContactManagement.Data;
-//using ContactManagement.Models; // Correct namespace for UserModel
-//using System.Linq;
-//using System.Security.Cryptography;
-//using System.Text;
-//using Microsoft.EntityFrameworkCore;
-
-//namespace ContactManagement.Controllers
-//{
-//    [ApiController]
-//    [Route("api/[controller]")]
-//    public class AuthController : Controller
-//    {
-//        private readonly ApplicationDbContext _db;
-
-//        public AuthController(ApplicationDbContext db)
-//        {
-//            _db = db;
-//        }
-
-//        [HttpGet("signup")]
-//        [ApiExplorerSettings(IgnoreApi = true)]
-//        public IActionResult Signup()
-//        {
-//            return Ok("successull loginn");
-//        }
-
-//        [HttpGet("login")]
-//        [ApiExplorerSettings(IgnoreApi = true)]
-//        public IActionResult Login()
-//        {
-//            return View();
-//        }
-
-//        [HttpPost("signup")]
-//        public async Task<ActionResult> Signup([FromBody] UserModel user) // This refers to ContactManagement.Models.UserModel
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                user.PasswordHash = HashPassword(user.PasswordHash);
-//                user.DateOfJoining = DateTime.Now;
-
-//                _db.Users.Add(user);
-//                await _db.SaveChangesAsync();
-
-//                return Ok(new { message = "User registered successfully" });
-//            }
-
-//            return BadRequest(ModelState);
-//        }
-
-//        [HttpPost("login")]
-//        public async Task<ActionResult> Login([FromBody] LoginModel login)
-//        {
-//            var hashedPassword = HashPassword(login.Password);
-
-//            var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == login.Email && u.PasswordHash == hashedPassword);
-
-//            if (user != null)
-//            {
-//                HttpContext.Session.SetInt32("UserId", user.UserId);
-//                return Ok(new { message = "Login successful", userId = user.UserId });
-//            }
-
-//            return Unauthorized(new { message = "Invalid login credentials" });
-//        }
-
-//        private string HashPassword(string password)
-//        {
-//            using (SHA512 sha512 = SHA512.Create())
-//            {
-//                var bytes = Encoding.UTF8.GetBytes(password);
-//                var hash = sha512.ComputeHash(bytes);
-//                return Convert.ToBase64String(hash);
-//            }
-//        }
-//    }
-
-//    public class LoginModel
-//    {
-//        public string Email { get; set; }
-//        public string Password { get; set; }
-//    }
-//}
-
+﻿ 
 
 
 
@@ -147,48 +62,7 @@ namespace ContactManagement.Controllers
             return View(); // Renders Login.cshtml
         }
 
-        // POST: /Auth/Login
 
-        //[HttpPost]
-        //[Route("login")]
-        //public async Task<ActionResult> Login([FromBody] LoginModel login)
-        //{
-        //    var hashedPassword = HashPassword(login.Password);
-
-        //    var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == login.Email && u.PasswordHash == hashedPassword);
-
-        //    if (user != null)
-        //    {
-        //        HttpContext.Session.SetInt32("UserId", user.UserId);
-
-        //        // Redirect to the Contacts page
-        //        return RedirectToAction("GetAllContacts", "Contacts");
-        //    }
-
-        //    return Unauthorized(new { message = "Invalid login credentials" });
-        //}
-
-
-        /*   [HttpPost]
-           [Route("login")]
-           public async Task<ActionResult> Login(LoginModel login)
-           {
-               var hashedPassword = HashPassword(login.Password);
-
-               var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == login.Email && u.PasswordHash == hashedPassword);
-
-               if (user != null)
-               {
-                   HttpContext.Session.SetInt32("UserId", user.UserId);
-
-                   // Redirect to the Contacts page
-                   return RedirectToAction("GetAllContacts", "Contacts");
-               }
-
-               ViewBag.Error = "Invalid login credentials.";
-               return View();
-
-           }*/
 
 
 
@@ -208,6 +82,7 @@ namespace ContactManagement.Controllers
                 ViewData["FullName"] = user.FullName;
 
                 // Redirect to Contacts page
+                //return Ok();
                 return RedirectToAction("GetAllContacts", "Contacts");
             }
 

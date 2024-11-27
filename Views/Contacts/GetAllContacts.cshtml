@@ -1,11 +1,11 @@
-﻿ @model IEnumerable<ContactManagement.Models.ContactModel>
-@{
-    Layout = "_Layout"; // Ensure the correct layout is being used
+﻿@{
+    Layout = "_Layout";
 }
+
 <h2>Contacts</h2>
 <div class="d-flex justify-content-between align-items-center mb-3">
     <a href="@Url.Action("Logout", "Auth")" class="btn btn-danger">Logout</a>
-    <a href="@Url.Action("AddContact", "Contacts")" class="btn btn-primary">Add New Contact</a>
+    <a href="#" class="btn btn-primary" data-bind="click: addNewContact">Add New Contact</a>
 </div>
 
 <table class="table">
@@ -18,22 +18,87 @@
             <th>Actions</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var contact in Model)
-        {
-            <tr>
-                <td>@contact.Name</td>
-                <td>@contact.Email</td>
-                <td>@contact.Phone</td>
-                <td>@contact.Company</td>
-                <td>
-                    <a href="@Url.Action("EditContact", "Contacts", new { id = contact.ContactId })" class="btn btn-warning">Edit</a>
-                    <form action="@Url.Action("DeleteContact", "Contacts", new { id = contact.ContactId })" method="post" style="display:inline;">
-                        <input type="hidden" name="_method" value="DELETE" />
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        }
+    <tbody data-bind="foreach: contacts">
+        <tr>
+            <td data-bind="text: name"></td>
+            <td data-bind="text: email"></td>
+            <td data-bind="text: phone"></td>
+            <td data-bind="text: company"></td>
+            <td>
+                <!-- Updated Edit Button to route to the EditContact view -->
+                <a data-bind="attr: { href: '/Contacts/Edit/' + contactId() }" class="btn btn-warning">Edit</a>
+                <button class="btn btn-danger" data-bind="click: $parent.deleteContact">Delete</button>
+            </td>
+        </tr>
     </tbody>
-</table> 
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.js"></script>
+<script>
+    function Contact(data) {
+        this.contactId = ko.observable(data.contactId);
+        this.name = ko.observable(data.name);
+        this.email = ko.observable(data.email);
+        this.phone = ko.observable(data.phone);
+        this.company = ko.observable(data.company);
+    }
+
+    function ContactViewModel() {
+        var self = this;
+
+        self.contacts = ko.observableArray([]);
+
+        // Load contacts via AJAX (GET request)
+        self.loadContacts = function () {
+            $.ajax({
+                url: '/Contacts/GetAllContacts',
+                type: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest' // Important for detecting AJAX
+                },
+                success: function (data) {
+                    var mappedContacts = data.map(function (item) {
+                        return new Contact(item);
+                    });
+                    self.contacts(mappedContacts);
+                },
+                error: function (xhr) {
+                    if (xhr.status === 401) {
+                        alert("Session expired. Please log in again.");
+                        window.location.href = '/Auth/Login';
+                    } else {
+                        console.error("Error loading contacts:", xhr.statusText);
+                    }
+                }
+            });
+        };
+
+        // Add new contact (redirect or open a modal)
+        self.addNewContact = function () {
+            window.location.href = '/Contacts/AddContact'; // Adjust to actual route or open a modal
+        };
+
+        self.deleteContact = function (contact) {
+            if (confirm("Are you sure you want to delete this contact?")) {
+                $.ajax({
+                    url: '/Contacts/DeleteContact/' + contact.contactId(),
+                    type: 'POST',
+                    success: function () {
+                        self.contacts.remove(contact);
+                        alert("Contact deleted successfully.");
+                    },
+                    error: function (xhr) {
+                        alert("Error deleting contact: " + xhr.responseText);
+                        console.error("Error:", xhr);
+                    }
+                });
+            }
+        };
+
+        // Load contacts on page load
+        self.loadContacts();
+    }
+
+    ko.applyBindings(new ContactViewModel());
+</script>

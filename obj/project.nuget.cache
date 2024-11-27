@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5rplr9RIf+w=",
+  "dgSpecHash": "KPLGr3DVEJg=",
   "success": true,
-  "projectFilePath": "C:\\Users\\haham\\source\\repos\\ContactManagement\\ContactManagement.csproj",
+  "projectFilePath": "C:\\Users\\haham\\source\\repos\\ContactManagement-DotNet-and-Knockoutjs-\\ContactManagement.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\haham\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\haham\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

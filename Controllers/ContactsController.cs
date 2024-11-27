@@ -19,26 +19,8 @@ namespace ContactManagement.Controllers
             _db = db;
         }
 
-        //// GET: api/contacts
-        //[HttpGet("GetAllContacts")]
-        //public IActionResult GetAllContacts()
-        //{
-        //    int? userId = HttpContext.Session.GetInt32("UserId");
-
-        //    if (userId == null)
-        //    {
-        //        return RedirectToAction("Login", "Auth");
-        //    }
-
-        //    var contacts = _db.Contacts.Where(c => c.UserId == userId).ToList();
-
-        //    return View("GetAllContacts", contacts); // Ensure this matches your .cshtml file name
-        //}
 
 
-
-
-        // GET: api/contacts
         [HttpGet("GetAllContacts")]
         public IActionResult GetAllContacts()
         {
@@ -53,26 +35,19 @@ namespace ContactManagement.Controllers
             var user = _db.Users.FirstOrDefault(u => u.UserId == userId.Value);
             if (user != null)
             {
-                // Set the FullName in ViewData so it's available in the layout
                 ViewData["FullName"] = user.FullName;
             }
 
-            // Get the contacts
             var contacts = _db.Contacts.Where(c => c.UserId == userId).ToList();
 
-            return View("GetAllContacts", contacts); // Ensure this matches your .cshtml file name
+            // Check if the request is AJAX
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return Json(contacts); // Return JSON for AJAX requests
+            }
+
+            return View("GetAllContacts", contacts); // Return view for normal requests
         }
-
-
-
-
-        // GET: /Contacts/ManageContacts
-        //[ApiExplorerSettings(IgnoreApi = true)]
-        //[HttpGet("ManageContacts")]
-        //public IActionResult ManageContacts()
-        //{
-        //    return View();
-        //}
 
         // GET: /Contacts/AddContact
         [HttpGet("AddContact")]
@@ -82,26 +57,6 @@ namespace ContactManagement.Controllers
             return View();
         }
 
-        //// POST: api/contacts
-        //[HttpPost]
-        //public ActionResult AddContact([FromBody] ContactModel contact)
-        //{
-        //    // Assign the current userId from the session
-        //    int? userId = HttpContext.Session.GetInt32("UserId");
-
-        //    if (userId == null)
-        //    {
-        //        return Unauthorized(new { message = "User is not logged in." });
-        //    }
-
-        //    contact.UserId = userId.Value; // Ensure contact has the correct UserId
-        //    _db.Contacts.Add(contact);
-        //    _db.SaveChanges();
-        //    return RedirectToAction("GetAllContacts", "Contacts"); // 204 No Content on successful deletion
-
-
-        //    //return CreatedAtAction(nameof(GetAllContacts), new { id = contact.ContactId }, contact);
-        //}
 
 
 
@@ -139,15 +94,8 @@ namespace ContactManagement.Controllers
         }
 
 
-
-        // DELETE: api/contacts/{id}
-        [HttpPost("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ApiExplorerSettings(IgnoreApi = false)] // Ensure it's included in Swagger
-        [SwaggerOperation(Summary = "Deletes a contact", Description = "Deletes a contact by ID using HTTP POST.")]
-        //[ HttpPost]
-        public ActionResult DeleteContact(int id)
+        [HttpPost("DeleteContact/{id}")]
+        public IActionResult DeleteContact(int id)
         {
             var contact = _db.Contacts.Find(id);
             if (contact == null)
@@ -158,9 +106,8 @@ namespace ContactManagement.Controllers
             _db.Contacts.Remove(contact);
             _db.SaveChanges();
 
-            return RedirectToAction("GetAllContacts", "Contacts"); // 204 No Content on successful deletion
+            return RedirectToAction("GetAllContacts", "Contacts");
         }
-
 
 
 

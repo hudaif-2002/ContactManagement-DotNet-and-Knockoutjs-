@@ -17,63 +17,51 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ContactManagement
 build_property.RootNamespace = ContactManagement
-build_property.ProjectDir = C:\Users\haham\source\repos\ContactManagement\
+build_property.ProjectDir = C:\Users\haham\source\repos\ContactManagement-DotNet-and-Knockoutjs-\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\haham\source\repos\ContactManagement
+build_property.MSBuildProjectDirectory = C:\Users\haham\source\repos\ContactManagement-DotNet-and-Knockoutjs-
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/haham/source/repos/ContactManagement/Views/Auth/Login.cshtml]
+[C:/Users/haham/source/repos/ContactManagement-DotNet-and-Knockoutjs-/Views/Auth/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/haham/source/repos/ContactManagement/Views/Auth/Signup.cshtml]
+[C:/Users/haham/source/repos/ContactManagement-DotNet-and-Knockoutjs-/Views/Auth/Signup.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxTaWdudXAuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/haham/source/repos/ContactManagement/Views/Contacts/AddContact.cshtml]
+[C:/Users/haham/source/repos/ContactManagement-DotNet-and-Knockoutjs-/Views/Contacts/AddContact.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdHNcQWRkQ29udGFjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/haham/source/repos/ContactManagement/Views/Contacts/EditContact.cshtml]
+[C:/Users/haham/source/repos/ContactManagement-DotNet-and-Knockoutjs-/Views/Contacts/EditContact.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdHNcRWRpdENvbnRhY3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/haham/source/repos/ContactManagement/Views/Contacts/GetAllContacts.cshtml]
+[C:/Users/haham/source/repos/ContactManagement-DotNet-and-Knockoutjs-/Views/Contacts/GetAllContacts.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdHNcR2V0QWxsQ29udGFjdHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/haham/source/repos/ContactManagement/Views/Contacts/ManageContacts.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdHNcTWFuYWdlQ29udGFjdHMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/haham/source/repos/ContactManagement/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/haham/source/repos/ContactManagement/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/haham/source/repos/ContactManagement/Views/Shared/Error.cshtml]
+[C:/Users/haham/source/repos/ContactManagement-DotNet-and-Knockoutjs-/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/haham/source/repos/ContactManagement/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/haham/source/repos/ContactManagement-DotNet-and-Knockoutjs-/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/haham/source/repos/ContactManagement/Views/_ViewImports.cshtml]
+[C:/Users/haham/source/repos/ContactManagement-DotNet-and-Knockoutjs-/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/haham/source/repos/ContactManagement/Views/_ViewStart.cshtml]
+[C:/Users/haham/source/repos/ContactManagement-DotNet-and-Knockoutjs-/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/haham/source/repos/ContactManagement/Views/Shared/_Layout.cshtml]
+[C:/Users/haham/source/repos/ContactManagement-DotNet-and-Knockoutjs-/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-6esctxia7w
