@@ -49,7 +49,33 @@
 
     <div class="login-container" data-bind="visible: showLoginForm">
         <h2 class="text-center">Login</h2>
+
         <form id="loginForm" data-bind="submit: submitLogin">
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input 
+            type="email" 
+            class="form-control" 
+            id="Email" 
+            data-bind="value: email" 
+            placeholder="Enter your email" 
+            required />
+    </div>
+    <div class="form-group">
+        <label for="Password">Password</label>
+        <input 
+            type="password" 
+            class="form-control" 
+            id="Password" 
+            data-bind="value: password" 
+            placeholder="Enter your password" 
+            required 
+            minlength="6" />
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Login</button>
+</form>
+
+       @*  <form id="loginForm" data-bind="submit: submitLogin">
             <div class="form-group">
                 <label for="Email">Email</label>
                 <input type="email" class="form-control" id="Email" data-bind="value: email" placeholder="Enter your email" required />
@@ -59,7 +85,7 @@
                 <input type="password" class="form-control" id="Password" data-bind="value: password" placeholder="Enter your password" required />
             </div>
             <button type="submit" class="btn btn-primary btn-block">Login</button>
-        </form>
+        </form> *@
         <div id="loadingIndicator" style="display:none;">Logging in...</div>
 
         <p id="errorMessage" class="text-center text-danger" data-bind="text: errorMessage"></p>
@@ -80,50 +106,57 @@
             self.errorMessage = ko.observable('');
             self.showLoginForm = ko.observable(true); // Control form visibility
 
+
+
+
             self.submitLogin = function () {
-                var email = self.email();
-                var password = self.password();
+    var email = self.email();
+    var password = self.password();
 
-                self.errorMessage(''); // Clear previous errors
-                fetch('/auth/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email: email, password: password }),
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Login failed. Please check your credentials.');
-                        }
+    self.errorMessage(''); // Clear previous errors
+    document.getElementById('loadingIndicator').style.display = 'block'; // Show loading indicator
 
-                        if (response.redirected) {
-                            // If the response is a redirect, follow the location
-                            window.location.href = response.url; // Redirect to the new URL
-                        } else {
-                            return response.json(); // If it's JSON, process the error message
-                        }
-                    })
-                    .then(data => {
-                        if (data && data.success) {
-                            window.location.href = '/Contacts/GetAllContacts'; // Redirect if login is successful
-                        } else {
-                            self.errorMessage(data.message || 'Invalid login credentials');
-                        }
-                    })
-                    .catch(error => {
-                        if (error.message === 'Failed to fetch') {
-                            self.errorMessage('Network error. Please try again.');
-                        } else {
-                            // Log the error to the console for debugging purposes
-                            console.error('Login Error: ', error.message);
-                            self.errorMessage(error.message || 'Something went wrong. Please try again.');
-                        }
-                    });
+    fetch('/auth/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: email, password: password }),
+    })
+        .then(response => {
+            document.getElementById('loadingIndicator').style.display = 'none'; // Hide loading indicator after response is received
 
-                document.getElementById('loadingIndicator').style.display = 'block';
+            if (!response.ok) {
+                throw new Error('Login failed. Please check your credentials.');
+            }
 
-            };
+            if (response.redirected) {
+                // If the response is a redirect, follow the location
+                window.location.href = response.url; // Redirect to the new URL
+            } else {
+                return response.json(); // If it's JSON, process the error message
+            }
+        })
+        .then(data => {
+            if (data && data.success) {
+                window.location.href = '/Contacts/GetAllContacts'; // Redirect if login is successful
+            } else {
+                self.errorMessage(data.message || 'Invalid login credentials');
+            }
+        })
+        .catch(error => {
+            document.getElementById('loadingIndicator').style.display = 'none'; // Hide loading indicator if there's an error
+            if (error.message === 'Failed to fetch') {
+                self.errorMessage('Network error. Please try again.');
+            } else {
+                // Log the error to the console for debugging purposes
+                console.error('Login Error: ', error.message);
+                self.errorMessage(error.message || 'Something went wrong. Please try again.');
+            }
+        });
+};
+
+            
         }
 
         ko.applyBindings(new LoginViewModel()); // Apply bindings to the page

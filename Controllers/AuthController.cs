@@ -27,27 +27,49 @@ namespace ContactManagement.Controllers
             return View();  
         }
 
+       
         // POST: /Auth/Signup
         [HttpPost("Signup")]
         public async Task<IActionResult> Signup(UserModel user)
         {
             if (ModelState.IsValid)
             {
-                user.PasswordHash = HashPassword(user.PasswordHash);
-                user.DateOfJoining = DateTime.Now;
+                try
+                {
+                    // Check if user already exists
+                    var existingUser = await _db.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+                    if (existingUser != null)
+                    {
+                        // If user exists, return an error message
+                        return Json(new { success = false, message = "User already exists with this email." });
+                    }
 
-                _db.Users.Add(user);
-                await _db.SaveChangesAsync();
+                    // Hash the password before saving
+                    user.PasswordHash = HashPassword(user.PasswordHash);
+                    user.DateOfJoining = DateTime.Now;
 
-                ViewBag.Success = "Signup successful!";       
-                Console.WriteLine("Signup successful, redirecting to Login...");
+                    // Save the new user
+                    _db.Users.Add(user);
+                    await _db.SaveChangesAsync();
 
-                return RedirectToAction("Login", "Auth");
+                    // Return success response
+                    return Json(new { success = true, message = "Signup successful! Redirecting to login page..." });
+                }
+                catch (Exception ex)
+                {
+                    // Handle unexpected errors and log them
+                    Console.WriteLine($"Error during signup: {ex.Message}");
+                    return Json(new { success = false, message = "An unexpected error occurred. Please try again later." });
+                }
             }
-
-            ViewBag.Error = "Signup failed. Please try again.";
-            return View(user);
+            else
+            {
+                // Return validation errors if ModelState is invalid
+                return Json(new { success = false, message = "Please check your input fields." });
+            }
         }
+
+
 
         // GET: /Auth/Login
         [ApiExplorerSettings(IgnoreApi = true)]
