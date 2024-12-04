@@ -49,22 +49,6 @@
   },
   {
     "ContainingType": "ContactManagement.Controllers.ContactsController",
-    "Method": "GetContactById",
-    "RelativePath": "Contacts/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ContactManagement.Controllers.ContactsController",
     "Method": "DeleteContact",
     "RelativePath": "Contacts/DeleteContact/{id}",
     "HttpMethod": "POST",

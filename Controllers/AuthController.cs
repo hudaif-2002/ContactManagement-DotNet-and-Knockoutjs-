@@ -1,10 +1,6 @@
-﻿ 
-
-
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ContactManagement.Data;
-using ContactManagement.Models; // Correct namespace for UserModel
+using ContactManagement.Models;  
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -28,7 +24,7 @@ namespace ContactManagement.Controllers
         [HttpGet("Signup")]
         public IActionResult Signup()
         {
-            return View(); // Renders Signup.cshtml
+            return View();  
         }
 
         // POST: /Auth/Signup
@@ -43,10 +39,9 @@ namespace ContactManagement.Controllers
                 _db.Users.Add(user);
                 await _db.SaveChangesAsync();
 
-                ViewBag.Success = "Signup successful!";      // Logging the redirection for debugging purposes
+                ViewBag.Success = "Signup successful!";       
                 Console.WriteLine("Signup successful, redirecting to Login...");
 
-                // Redirect to the Login action
                 return RedirectToAction("Login", "Auth");
             }
 
@@ -59,37 +54,13 @@ namespace ContactManagement.Controllers
         [HttpGet("Login")]
         public IActionResult Login()
         {
-            return View(); // Renders Login.cshtml
+            return View();
         }
 
 
 
 
-
-        //[HttpPost]
-        //[Route("login")]
-        //public async Task<ActionResult> Login(LoginModel login)
-        //{
-        //    var hashedPassword = HashPassword(login.Password);
-
-        //    var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == login.Email && u.PasswordHash == hashedPassword);
-
-        //    if (user != null)
-        //    {
-        //        // Store UserId in Session
-        //        HttpContext.Session.SetInt32("UserId", user.UserId);
-
-        //        ViewData["FullName"] = user.FullName;
-
-        //        // Redirect to Contacts page
-        //        //return Ok();
-        //        return RedirectToAction("GetAllContacts", "Contacts");
-        //    }
-
-        //    ViewBag.Error = "Invalid login credentials.";
-        //    return View();
-        //}
-
+         
 
 
         [HttpPost]
@@ -102,14 +73,13 @@ namespace ContactManagement.Controllers
 
             if (user != null)
             {
-                // Store UserId in Session
+                
                 HttpContext.Session.SetInt32("UserId", user.UserId);
 
-                // Return JSON with success status
+             
                 return Json(new { success = true, message = "Login successful" });
             }
 
-            // Return JSON with failure status
             return Json(new { success = false, message = "Invalid login credentials." });
         }
 
@@ -118,10 +88,7 @@ namespace ContactManagement.Controllers
         [HttpGet("Logout")]
         public IActionResult Logout()
         {
-            // Clear the session
             HttpContext.Session.Clear();
-
-            // Redirect to the login page
             return RedirectToAction("Login", "Auth");
         }
 

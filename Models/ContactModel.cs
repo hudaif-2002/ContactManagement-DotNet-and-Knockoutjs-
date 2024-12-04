@@ -9,7 +9,7 @@ namespace ContactManagement.Models
         public int ContactId { get; set; }
 
         [Required] // Mark as required to avoid null values
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [Required]
         public string Email { get; set; }

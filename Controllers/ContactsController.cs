@@ -5,15 +5,15 @@ using System.Linq;
 using Swashbuckle.AspNetCore.Annotations;
 
 
-namespace ContactManagement.Controllers
-{
+namespace ContactManagement.Controllers;
+
     [ApiController]
     [Route("[controller]")]
     public class ContactsController : Controller
     {
         private readonly ApplicationDbContext _db;
 
-        // Inject ApplicationDbContext through constructor
+     
         public ContactsController(ApplicationDbContext db)
         {
             _db = db;
@@ -31,7 +31,7 @@ namespace ContactManagement.Controllers
                 return RedirectToAction("Login", "Auth");
             }
 
-            // Get user details to retrieve FullName
+            //   To retrieve FullName
             var user = _db.Users.FirstOrDefault(u => u.UserId == userId.Value);
             if (user != null)
             {
@@ -51,7 +51,7 @@ namespace ContactManagement.Controllers
 
         // GET: /Contacts/AddContact
         [HttpGet("AddContact")]
-        [ApiExplorerSettings(IgnoreApi = true)] // Exclude from Swagger
+        [ApiExplorerSettings(IgnoreApi = true)]  
         public IActionResult AddContact()
         {
             return View();
@@ -64,7 +64,7 @@ namespace ContactManagement.Controllers
         [HttpPost]
         public ActionResult AddContact([FromBody] ContactModel contact)
         {
-            // Assign the current userId from the session
+             
             int? userId = HttpContext.Session.GetInt32("UserId");
 
             if (userId == null)
@@ -85,7 +85,7 @@ namespace ContactManagement.Controllers
                 return Conflict(new { message = "This contact already exists." });
             }
 
-            // If the contact doesn't exist, add the new contact
+            
             _db.Contacts.Add(contact);
             _db.SaveChanges();
 
@@ -114,18 +114,7 @@ namespace ContactManagement.Controllers
 
 
 
-        // GET: api/contacts/{id}
-        [HttpGet("{id}")]
-        public IActionResult GetContactById(int id)
-        {
-            var contact = _db.Contacts.Find(id);
-            if (contact == null)
-            {
-                return NotFound(new { message = "Contact not found." });
-            }
-
-            return View("ViewContact", contact); // View for viewing the details of a single contact
-        }
+      
 
         // GET: api/contacts/edit/{id}
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -167,5 +156,5 @@ namespace ContactManagement.Controllers
 
 
     }
-}
+
 
