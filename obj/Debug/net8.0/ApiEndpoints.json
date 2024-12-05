@@ -51,7 +51,7 @@
     "ContainingType": "ContactManagement.Controllers.ContactsController",
     "Method": "DeleteContact",
     "RelativePath": "Contacts/DeleteContact/{id}",
-    "HttpMethod": "POST",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [

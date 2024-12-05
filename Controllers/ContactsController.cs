@@ -20,8 +20,17 @@ namespace ContactManagement.Controllers;
         }
 
 
+    // GET: /Contacts/AddContact
+    [HttpGet("AddContact")]
+    [ApiExplorerSettings(IgnoreApi = true)]
+    public IActionResult AddContact()
+    {
+        return View();
+    }
 
-        [HttpGet("GetAllContacts")]
+
+
+    [HttpGet("GetAllContacts")]
         public IActionResult GetAllContacts()
         {
             int? userId = HttpContext.Session.GetInt32("UserId");
@@ -49,14 +58,7 @@ namespace ContactManagement.Controllers;
             return View("GetAllContacts", contacts); // Return view for normal requests
         }
 
-        // GET: /Contacts/AddContact
-        [HttpGet("AddContact")]
-        [ApiExplorerSettings(IgnoreApi = true)]  
-        public IActionResult AddContact()
-        {
-            return View();
-        }
-
+       
 
 
 
@@ -81,7 +83,7 @@ namespace ContactManagement.Controllers;
 
             if (existingContact != null)
             {
-                // Return a message saying the contact already exists
+                 
                 return Conflict(new { message = "This contact already exists." });
             }
 
@@ -94,30 +96,68 @@ namespace ContactManagement.Controllers;
         }
 
 
-        [HttpPost("DeleteContact/{id}")]
-        public IActionResult DeleteContact(int id)
+    //[HttpPost("DeleteContact/{id}")]
+    //public IActionResult DeleteContact(int id)
+    //{
+    //    var contact = _db.Contacts.Find(id);
+    //    if (contact == null)
+    //    {
+    //        return NotFound(new { message = "Contact not found." });
+    //    }
+
+    //    _db.Contacts.Remove(contact);
+    //    _db.SaveChanges();
+
+    //    return RedirectToAction("GetAllContacts", "Contacts");
+    //}
+
+
+
+
+    // PUT: api/contacts/edit/{id}
+    //[HttpPut("Edit/{id}")]
+    //public IActionResult EditContact(int id, [FromBody] ContactModel contact)
+    //{
+    //    var existingContact = _db.Contacts.Find(id);
+    //    if (existingContact == null)
+    //    {
+    //        return NotFound(new { message = "Contact not found." });
+    //    }
+
+    //    existingContact.Name = contact.Name;
+    //    existingContact.Email = contact.Email;
+    //    existingContact.Phone = contact.Phone;
+    //    existingContact.Company = contact.Company;
+
+    //    _db.SaveChanges();
+    //    return Ok(new { message = "Contact updated successfully." });
+    //}
+
+    // DELETE: api/contacts/delete/{id}
+    [HttpDelete("DeleteContact/{id}")]
+    public IActionResult DeleteContact(int id)
+    {
+        var contact = _db.Contacts.Find(id);
+        if (contact == null)
         {
-            var contact = _db.Contacts.Find(id);
-            if (contact == null)
-            {
-                return NotFound(new { message = "Contact not found." });
-            }
-
-            _db.Contacts.Remove(contact);
-            _db.SaveChanges();
-
-            return RedirectToAction("GetAllContacts", "Contacts");
+            return NotFound(new { message = "Contact not found." });
         }
 
+        _db.Contacts.Remove(contact);
+        _db.SaveChanges();
+
+        return Ok(new { message = "Contact deleted successfully." });
+    }
 
 
 
 
 
-      
 
-        // GET: api/contacts/edit/{id}
-        [ApiExplorerSettings(IgnoreApi = true)]
+
+
+    // GET: api/contacts/edit/{id}
+    [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet("Edit/{id}")]
         public IActionResult EditContact(int id)
         {
@@ -130,31 +170,28 @@ namespace ContactManagement.Controllers;
             return View("EditContact", contact); // View for editing a contact
         }
 
-        // POST: api/contacts/edit/{id}
-        [HttpPost("Edit/{id}")]
-        public IActionResult EditContact(int id, [FromForm] ContactModel contact)
+
+
+
+    //// POST: api/contacts/edit/{id}
+    [HttpPost("Edit/{id}")]
+    public IActionResult EditContact(int id, [FromForm] ContactModel contact)
+    {
+        var existingContact = _db.Contacts.Find(id);
+        if (existingContact == null)
         {
-            var existingContact = _db.Contacts.Find(id);
-            if (existingContact == null)
-            {
-                return NotFound(new { message = "Contact not found." });
-            }
-
-            existingContact.Name = contact.Name;
-            existingContact.Email = contact.Email;
-            existingContact.Phone = contact.Phone;
-            existingContact.Company = contact.Company;
-
-            _db.SaveChanges();
-            return RedirectToAction("GetAllContacts");
+            return NotFound(new { message = "Contact not found." });
         }
 
+        existingContact.Name = contact.Name;
+        existingContact.Email = contact.Email;
+        existingContact.Phone = contact.Phone;
+        existingContact.Company = contact.Company;
 
-
-
-
-
-
+        _db.SaveChanges();
+        return RedirectToAction("GetAllContacts");
     }
+
+}
 
 

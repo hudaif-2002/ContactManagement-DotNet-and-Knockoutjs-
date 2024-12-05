@@ -2,14 +2,11 @@
     Layout = null;
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup</title>
+ 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<style>
         body {
             background-color: #f8f9fa;
             display: flex;
@@ -28,46 +25,47 @@
             max-width: 400px;
         }
 
-            .signup-container h2 {
-                margin-bottom: 20px;
-                color: #343a40;
-            }
+          
 
-        #message {
-            margin-top: 10px;
-            font-size: 0.9rem;
-        }
+     
     </style>
-</head>
-<body>
+ 
 
     <div class="signup-container" data-bind="with: signupViewModel">
-        <h2 class="text-center">Signup</h2>
-        <form data-bind="submit: submitSignup">
-            <div class="form-group">
-                <label for="FullName">Full Name</label>
-                <input type="text" class="form-control" id="FullName" placeholder="Enter your full name"
-                       data-bind="value: fullName"
-                       pattern="[a-zA-Z\s]+"
-                       title="Only letters and spaces are allowed"
-                        oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"
-                       required />
+        <h2 class="text-center mb-4 text-dark">Signup</h2>
 
-                
+    <form data-bind="submit: submitSignup">
+        <div class="form-group">
+            <label for="FullName">Full Name</label>
+            <input type="text" class="form-control" id="FullName" placeholder="Enter your full name"
+                   data-bind="value: fullName"
+                   pattern="[a-zA-Z\s]+"
+                   @* title="Only letters and spaces are allowed" *@
+                   oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g,'')"
+                   required />
+        </div>
+            
+        <div class="form-group">
+            <label for="Email">Email</label>
+            <input type="email" class="form-control" id="Email" placeholder="Enter your email"
+                   data-bind="value: email"
+                  
+                    />
+            <small id="emailError" class="form-text text-danger"></small>
+        </div>
 
-            </div>
-            <div class="form-group">
-                <label for="Email">Email</label>
-                <input type="email" class="form-control" id="Email" placeholder="Enter your email" data-bind="value: email" required />
-            </div>
-            <div class="form-group">
-                <label for="PasswordHash">Password</label>
-                <input type="password" class="form-control" id="PasswordHash" placeholder="Enter your password" data-bind="value: password" required
-                       minlength="6" />
-            </div>
-            <button type="submit" class="btn btn-primary btn-block" data-bind="disable: isSubmitting">Signup</button>
-        </form>
-        <p id="message" class="text-center" data-bind="text: message, css: { 'text-success': isSuccess, 'text-danger': !isSuccess }"></p>
+        <div class="form-group">
+            <label for="PasswordHash">Password</label>
+            <input type="password" class="form-control" id="PasswordHash" placeholder="Enter your password"
+                   data-bind="value: password"
+                   required minlength="6" />
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" data-bind="disable: isSubmitting">Signup</button>
+    </form>
+
+    <p id="message" class="text-center mt-2 small" data-bind="text: message, css: { 'text-success': isSuccess, 'text-danger': !isSuccess }"></p>
+    
         <div class="text-center mt-3">
             <p>Already have an account? <a href="/auth/login">Login here</a></p>
         </div>
@@ -75,8 +73,10 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.js"></script>
-    <script>
-        function SignupViewModel() {
+    
+    
+    <script> 
+            function SignupViewModel() {
             var self = this;
 
             self.fullName = ko.observable('');
@@ -91,7 +91,7 @@
                 const data = {
                     fullName: self.fullName(),
                     email: self.email(),
-                    passwordHash: self.password() // Assuming server handles hashing
+                    passwordHash: self.password()  
                 };
 
                 try {
@@ -107,7 +107,7 @@
                         self.isSuccess(true);
                         self.message(responseData.message); // Success message from backend
                         setTimeout(() => {
-                            window.location.href = '/auth/login'; // Redirect after success
+                            window.location.href = '/auth/login';  
                         }, 2000);
                     } else {
                         self.isSuccess(false);
@@ -125,12 +125,10 @@
             };
         }
 
-        // Apply bindings
+        
         const signupViewModel = new SignupViewModel();
         ko.applyBindings({ signupViewModel });
     </script>
+  
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-</body>
-</html>
+ 

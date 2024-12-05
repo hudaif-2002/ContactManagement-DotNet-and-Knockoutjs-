@@ -5,10 +5,10 @@ namespace ContactManagement.Models
 {
     public class ContactModel
     {
-        [Key] // Explicitly mark this as the primary key
+        [Key] 
         public int ContactId { get; set; }
 
-        [Required] // Mark as required to avoid null values
+        [Required] 
         public string? Name { get; set; }
 
         [Required]

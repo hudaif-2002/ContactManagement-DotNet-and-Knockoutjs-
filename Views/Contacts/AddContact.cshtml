@@ -1,6 +1,4 @@
-﻿ 
-
- @model ContactManagement.Models.ContactModel
+﻿ @model ContactManagement.Models.ContactModel
 
 <h2>Add New Contact</h2>
 
@@ -8,24 +6,31 @@
     <label for="Name">Name</label>
     <input type="text" class="form-control" id="Name" data-bind="value: name, valueUpdate: 'input'" required pattern="[a-zA-Z\s]+"
            title="Only letters and spaces are allowed"
-           oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '') "/>
+           oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '') " />
 </div>
 <div class="form-group">
     <label for="Email">Email</label>
     <input type="email" class="form-control" id="Email" data-bind="value: email, valueUpdate: 'input'" required />
+    <small id="emailError" class="form-text text-danger"></small>
 </div>
+
 <div class="form-group">
     <label for="Phone">Phone</label>
     <input type="text" class="form-control" id="Phone" data-bind="value: phone, valueUpdate: 'input'" required
-           maxlength="10 pattern="\d+" title="Only numbers are allowed"
-           oninput="this.value = this.value.replace(/[^0-9]/g, '')" "  />
+           maxlength="10" pattern="\d+" title="Only numbers are allowed"
+           oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
 </div>
 <div class="form-group">
     <label for="Company">Company</label>
     <input type="text" class="form-control" id="Company" data-bind="value: company, valueUpdate: 'input'" required />
 </div>
-<br/>
+<br />
 <button class="btn btn-success" data-bind="click: addContact">Add Contact</button>
+
+
+<button class="btn btn-secondary" onclick="window.location.href='/contacts/getallcontacts'">Go Back</button>
+
+
 
 <div id="errorMessage" class="error-message" style="color: red; margin-top: 10px;" data-bind="text: errorMessage"></div>
 
@@ -42,20 +47,21 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.js"></script>
+
 <script>
     function ContactViewModel() {
         var self = this;
 
-        // Observables for form fields
+
         self.name = ko.observable('');
         self.email = ko.observable('');
         self.phone = ko.observable('');
         self.company = ko.observable('');
 
-        // Observable for error messages
+
         self.errorMessage = ko.observable('');
 
-        // Add contact function
+
         self.addContact = async function () {
             let formData = {
                 Name: self.name(),
@@ -74,21 +80,21 @@
                 });
 
                 if (response.ok) {
- 
-    Swal.fire({
-        title: 'Contact Added!',
-        text: 'Contact has been added successfully.',
-        icon: 'success',  // Success icon
-        showCloseButton: true,
-        confirmButtonColor: '#4CAF50', // Green button for success
-        confirmButtonText: 'OK'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Redirect after the user clicks "OK"
-            window.location.href = '/contacts/getallcontacts'; 
-        }
-    });
-}else if (response.status === 409) {
+
+                    Swal.fire({
+                        title: 'Contact Added!',
+                        text: 'Contact has been added successfully.',
+                        icon: 'success',
+                        showCloseButton: true,
+                        confirmButtonColor: '#4CAF50',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            window.location.href = '/contacts/getallcontacts';
+                        }
+                    });
+                } else if (response.status === 409) {
                     self.errorMessage("This contact already exists.");
                 } else {
                     const errorData = await response.json();
@@ -100,7 +106,7 @@
         };
     }
 
- 
+
     ko.applyBindings(new ContactViewModel());
 </script>
 

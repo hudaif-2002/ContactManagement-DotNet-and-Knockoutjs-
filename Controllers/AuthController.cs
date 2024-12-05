@@ -27,7 +27,27 @@ namespace ContactManagement.Controllers
             return View();  
         }
 
-       
+
+        // GET: /Auth/Login
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpGet("Login")]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpGet("Logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login", "Auth");
+        }
+
+
+
         // POST: /Auth/Signup
         [HttpPost("Signup")]
         public async Task<IActionResult> Signup(UserModel user)
@@ -64,25 +84,13 @@ namespace ContactManagement.Controllers
             }
             else
             {
-                // Return validation errors if ModelState is invalid
+                // if ModelState is invalid
                 return Json(new { success = false, message = "Please check your input fields." });
             }
         }
 
 
 
-        // GET: /Auth/Login
-        [ApiExplorerSettings(IgnoreApi = true)]
-        [HttpGet("Login")]
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-
-
-
-         
 
 
         [HttpPost]
@@ -106,13 +114,7 @@ namespace ContactManagement.Controllers
         }
 
 
-        [ApiExplorerSettings(IgnoreApi = true)]
-        [HttpGet("Logout")]
-        public IActionResult Logout()
-        {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Login", "Auth");
-        }
+       
 
 
 

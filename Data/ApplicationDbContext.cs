@@ -1,8 +1,7 @@
 ﻿using ContactManagement.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ContactManagement.Data
-{
+namespace ContactManagement.Data;
   
 
     public class ApplicationDbContext : DbContext
@@ -13,4 +12,4 @@ namespace ContactManagement.Data
 
     }
 
-}
+
