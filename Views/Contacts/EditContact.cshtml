@@ -51,36 +51,38 @@
         self.company = ko.observable(initialData.company);
 
         
-        self.saveContact = function () {
-            var contactData = {
-                ContactId: self.contactId(),
-                Name: self.name(),
-                Email: self.email(),
-                Phone: self.phone(),
-                Company: self.company()
-            };
+     self.saveContact = function () {
+    var contactData = {
+        ContactId: self.contactId(),
+        Name: self.name(),
+        Email: self.email(),
+        Phone: self.phone(),
+        Company: self.company()
+    };
 
-            $.ajax({
-                url: '/Contacts/Edit/' + contactData.ContactId, 
-                type: 'POST',
-                data: contactData,
-                success: function () {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: 'Contact updated successfully.',
-                        icon: 'success',  
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'OK'
-                    }).then(() => {
-                        window.location.href = '/Contacts/GetAllContacts';  
-                    });
-                },
-
-                error: function (xhr) {
-                    alert("Error updating contact: " + xhr.responseText);
-                }
+    $.ajax({
+        url: '/Contacts/Edit/' + contactData.ContactId,
+        type: 'PUT',
+        contentType: 'application/json', // Set the correct content type
+        data: JSON.stringify(contactData), // Convert to JSON string
+        success: function () {
+            Swal.fire({
+                title: 'Success!',
+                text: 'Contact updated successfully.',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = '/Contacts/GetAllContacts';
             });
-        };
+        },
+        error: function (xhr) {
+            alert("Error updating contact: " + xhr.responseText);
+        }
+    });
+};
+
+
     }
 
     // Initialize the ViewModel with the server-side data

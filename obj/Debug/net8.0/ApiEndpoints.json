@@ -67,7 +67,7 @@
     "ContainingType": "ContactManagement.Controllers.ContactsController",
     "Method": "EditContact",
     "RelativePath": "Contacts/Edit/{id}",
-    "HttpMethod": "POST",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -77,34 +77,9 @@
         "IsRequired": true
       },
       {
-        "Name": "ContactId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "Name",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Email",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Phone",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Company",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "UserId",
-        "Type": "System.Int32",
-        "IsRequired": false
+        "Name": "contact",
+        "Type": "ContactManagement.Models.ContactModel",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

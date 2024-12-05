@@ -114,24 +114,24 @@ namespace ContactManagement.Controllers;
 
 
 
-    // PUT: api/contacts/edit/{id}
-    //[HttpPut("Edit/{id}")]
-    //public IActionResult EditContact(int id, [FromBody] ContactModel contact)
-    //{
-    //    var existingContact = _db.Contacts.Find(id);
-    //    if (existingContact == null)
-    //    {
-    //        return NotFound(new { message = "Contact not found." });
-    //    }
+    [HttpPut("Edit/{id}")]
+    public IActionResult EditContact(int id, [FromBody] ContactModel contact)
+    {
+        var existingContact = _db.Contacts.Find(id);
+        if (existingContact == null)
+        {
+            return NotFound(new { message = "Contact not found." });
+        }
 
-    //    existingContact.Name = contact.Name;
-    //    existingContact.Email = contact.Email;
-    //    existingContact.Phone = contact.Phone;
-    //    existingContact.Company = contact.Company;
+        existingContact.Name = contact.Name;
+        existingContact.Email = contact.Email;
+        existingContact.Phone = contact.Phone;
+        existingContact.Company = contact.Company;
 
-    //    _db.SaveChanges();
-    //    return Ok(new { message = "Contact updated successfully." });
-    //}
+        _db.SaveChanges();
+        return Ok(new { message = "Contact updated successfully." });
+    }
+
 
     // DELETE: api/contacts/delete/{id}
     [HttpDelete("DeleteContact/{id}")]
@@ -174,23 +174,23 @@ namespace ContactManagement.Controllers;
 
 
     //// POST: api/contacts/edit/{id}
-    [HttpPost("Edit/{id}")]
-    public IActionResult EditContact(int id, [FromForm] ContactModel contact)
-    {
-        var existingContact = _db.Contacts.Find(id);
-        if (existingContact == null)
-        {
-            return NotFound(new { message = "Contact not found." });
-        }
+    //[HttpPost("Edit/{id}")]
+    //public IActionResult EditContact(int id, [FromForm] ContactModel contact)
+    //{
+    //    var existingContact = _db.Contacts.Find(id);
+    //    if (existingContact == null)
+    //    {
+    //        return NotFound(new { message = "Contact not found." });
+    //    }
 
-        existingContact.Name = contact.Name;
-        existingContact.Email = contact.Email;
-        existingContact.Phone = contact.Phone;
-        existingContact.Company = contact.Company;
+    //    existingContact.Name = contact.Name;
+    //    existingContact.Email = contact.Email;
+    //    existingContact.Phone = contact.Phone;
+    //    existingContact.Company = contact.Company;
 
-        _db.SaveChanges();
-        return RedirectToAction("GetAllContacts");
-    }
+    //    _db.SaveChanges();
+    //    return RedirectToAction("GetAllContacts");
+    //}
 
 }
 
