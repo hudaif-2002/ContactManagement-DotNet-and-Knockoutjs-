@@ -4,8 +4,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ContactManagement.Models
 {
-    
-
     public class UserModel
     {
         [Key]
@@ -15,5 +13,4 @@ namespace ContactManagement.Models
         public string PasswordHash { get; set; }
         public DateTime DateOfJoining { get; set; }
     }
-
 }

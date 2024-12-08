@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "vtNlv/jSw+D2WV436ow7m2C00mXu+UMuldVx9Jefbek=",
+  "Hash": "s8NSRyQTXJvGkawT/a9x19os+0sc4FnsR/UO4EAAsmE=",
   "Source": "ContactManagement",
   "BasePath": "_content/ContactManagement",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\haham\\Source\\Repos\\ContactManagement-DotNet-and-Knockoutjs\\wwwroot\\js\\LoginScript.js",
+      "SourceId": "ContactManagement",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\haham\\Source\\Repos\\ContactManagement-DotNet-and-Knockoutjs\\wwwroot\\",
+      "BasePath": "_content/ContactManagement",
+      "RelativePath": "js/LoginScript.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\LoginScript.js"
     },
     {
       "Identity": "C:\\Users\\haham\\Source\\Repos\\ContactManagement-DotNet-and-Knockoutjs\\wwwroot\\js\\site.js",

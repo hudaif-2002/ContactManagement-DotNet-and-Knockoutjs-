@@ -6,128 +6,101 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 
-namespace ContactManagement.Controllers
+namespace ContactManagement.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class AuthController : Controller
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class AuthController : Controller
+    private readonly ApplicationDbContext _db;
+    public AuthController(ApplicationDbContext db)
     {
-        private readonly ApplicationDbContext _db;
+        _db = db;
+    }
 
-        public AuthController(ApplicationDbContext db)
+    // GET: /Auth/Signup
+    [ApiExplorerSettings(IgnoreApi = true)]
+    [HttpGet("Signup")]
+    public IActionResult Signup()
+    {
+        return View();  
+    }
+
+    // GET: /Auth/Login
+    [ApiExplorerSettings(IgnoreApi = true)]
+    [HttpGet("Login")]
+    public IActionResult Login()
+    {
+        return View();
+    }
+
+    [ApiExplorerSettings(IgnoreApi = true)]
+    [HttpGet("Logout")]
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Login", "Auth");
+    }
+
+    // POST: /Auth/Signup
+    [HttpPost("Signup")]
+    public async Task<IActionResult> Signup(UserModel user)
+    {
+        if (ModelState.IsValid)
         {
-            _db = db;
-        }
-
-        // GET: /Auth/Signup
-        [ApiExplorerSettings(IgnoreApi = true)]
-        [HttpGet("Signup")]
-        public IActionResult Signup()
-        {
-            return View();  
-        }
-
-
-        // GET: /Auth/Login
-        [ApiExplorerSettings(IgnoreApi = true)]
-        [HttpGet("Login")]
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-
-
-        [ApiExplorerSettings(IgnoreApi = true)]
-        [HttpGet("Logout")]
-        public IActionResult Logout()
-        {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Login", "Auth");
-        }
-
-
-
-        // POST: /Auth/Signup
-        [HttpPost("Signup")]
-        public async Task<IActionResult> Signup(UserModel user)
-        {
-            if (ModelState.IsValid)
+            try
             {
-                try
+                // Check if user already exists
+                var existingUser = await _db.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+                if (existingUser != null)
                 {
-                    // Check if user already exists
-                    var existingUser = await _db.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
-                    if (existingUser != null)
-                    {
-                        // If user exists, return an error message
-                        return Json(new { success = false, message = "User already exists with this email." });
-                    }
-
-                    // Hash the password before saving
-                    user.PasswordHash = HashPassword(user.PasswordHash);
-                    user.DateOfJoining = DateTime.Now;
-
-                    // Save the new user
-                    _db.Users.Add(user);
-                    await _db.SaveChangesAsync();
-
-                    // Return success response
-                    return Json(new { success = true, message = "Signup successful! Redirecting to login page..." });
+                    // If user exists, return an error message
+                    return Json(new { success = false, message = "User already exists with this email." });
                 }
-                catch (Exception ex)
-                {
-                    // Handle unexpected errors and log them
-                    Console.WriteLine($"Error during signup: {ex.Message}");
-                    return Json(new { success = false, message = "An unexpected error occurred. Please try again later." });
-                }
+                // Hash the password before saving
+                user.PasswordHash = HashPassword(user.PasswordHash);
+                user.DateOfJoining = DateTime.Now;
+                // Save the new user
+                _db.Users.Add(user);
+                await _db.SaveChangesAsync();
+                // Return success response
+                return Json(new { success = true, message = "Signup successful! Redirecting to login page..." });
             }
-            else
+            catch (Exception ex)
             {
-                // if ModelState is invalid
-                return Json(new { success = false, message = "Please check your input fields." });
+                // Handle unexpected errors and log them
+                Console.WriteLine($"Error during signup: {ex.Message}");
+                return Json(new { success = false, message = "An unexpected error occurred. Please try again later." });
             }
         }
-
-
-
-
-
-        [HttpPost]
-        [Route("login")]
-        public async Task<ActionResult> Login(LoginModel login)
+        else
         {
-            var hashedPassword = HashPassword(login.Password);
-
-            var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == login.Email && u.PasswordHash == hashedPassword);
-
-            if (user != null)
-            {
-                
-                HttpContext.Session.SetInt32("UserId", user.UserId);
-
-             
-                return Json(new { success = true, message = "Login successful" });
-            }
-
-            return Json(new { success = false, message = "Invalid login credentials." });
+            // if ModelState is invalid
+            return Json(new { success = false, message = "Please check your input fields." });
         }
+    }
 
-
-       
-
-
-
-        private string HashPassword(string password)
+    [HttpPost]
+    [Route("login")]
+    public async Task<ActionResult> Login(LoginModel login)
+    {
+        var hashedPassword = HashPassword(login.Password);
+        var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == login.Email && u.PasswordHash == hashedPassword);
+        if (user != null)
         {
-            using (SHA512 sha512 = SHA512.Create())
-            {
-                var bytes = Encoding.UTF8.GetBytes(password);
-                var hash = sha512.ComputeHash(bytes);
-                return Convert.ToBase64String(hash);
-            }
+            HttpContext.Session.SetInt32("UserId", user.UserId);
+            return Json(new { success = true, message = "Login successful" });
+        }
+        return Json(new { success = false, message = "Invalid login credentials." });
+    }
+
+    private string HashPassword(string password)
+    {
+        using (SHA512 sha512 = SHA512.Create())
+        {
+            var bytes = Encoding.UTF8.GetBytes(password);
+            var hash = sha512.ComputeHash(bytes);
+            return Convert.ToBase64String(hash);
         }
     }
 }
-
-

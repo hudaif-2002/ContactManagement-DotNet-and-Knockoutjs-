@@ -11,5 +11,3 @@ namespace ContactManagement.Data;
         public DbSet<ContactModel> Contacts { get; set; }
 
     }
-
-

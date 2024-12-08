@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\haham\\Source\\Repos\\ContactManagement-DotNet-and-Knockoutjs\\wwwroot\\js\\LoginScript.js",
+      "PackagePath": "staticwebassets\\js\\LoginScript.js"
+    },
+    {
       "Id": "C:\\Users\\haham\\Source\\Repos\\ContactManagement-DotNet-and-Knockoutjs\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

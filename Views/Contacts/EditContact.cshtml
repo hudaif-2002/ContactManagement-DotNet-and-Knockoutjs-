@@ -1,5 +1,4 @@
-﻿
- @model ContactManagement.Models.ContactModel
+﻿ @model ContactManagement.Models.ContactModel
 
 <h2>Edit Contact</h2>
 
@@ -7,35 +6,35 @@
     <form data-bind="submit: saveContact">
         <div class="form-group">
             <label for="Name">Name</label>
-            <input type="text" class="form-control" id="Name" data-bind="value: name" required pattern="[a-zA-Z\s]+"
+            <input type="text" class="form-control" id="Name" data-bind="value: name, valueUpdate: 'input'" required pattern="[a-zA-Z\s]+"
                    title="Only letters and spaces are allowed"
-                   oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '') "/>
+                   oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').trim()" />
         </div>
         <div class="form-group">
             <label for="Email">Email</label>
-            <input type="email" class="form-control" id="Email" data-bind="value: email" required />
-            <small id="emailError" class="form-text text-danger"></small>
+            <input type="email" class="form-control" id="Email" data-bind="value: email, valueUpdate: 'input'" required />
         </div>
         <div class="form-group">
             <label for="Phone">Phone</label>
-            <input type="text" class="form-control" id="Phone" data-bind="value: phone" required maxlength="10 pattern="\d+" title="Only numbers are allowed"
-                   oninput="this.value = this.value.replace(/[^0-9]/g, '') "/>
+            <input type="text" class="form-control" id="Phone" data-bind="value: phone, valueUpdate: 'input'" required maxlength="10" pattern="\d+"
+                   title="Only numbers are allowed"
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
         </div>
         <div class="form-group">
             <label for="Company">Company</label>
-            <input type="text" class="form-control" id="Company" data-bind="value: company" required />
+            <input type="text" class="form-control" id="Company" data-bind="value: company, valueUpdate: 'input'" required />
         </div>
 
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-<button class="btn btn-secondary" onclick="window.location.href='/contacts/getallcontacts'">Go Back</button>
-        
+        <div id="errorMessage" class="error-message" style="color: red; margin-top: 10px;" data-bind="text: errorMessage"></div>
 
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a class="btn btn-secondary" onclick="window.location.href='/contacts/getallcontacts'">Go Back</a>
     </form>
 </div>
-<!-- SweetAlert2 CSS and JS -->
+
+<!-- Include dependencies -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.js"></script>
 
@@ -43,46 +42,52 @@
     function EditContactViewModel(initialData) {
         var self = this;
 
-       
         self.contactId = ko.observable(initialData.contactId);
         self.name = ko.observable(initialData.name);
         self.email = ko.observable(initialData.email);
         self.phone = ko.observable(initialData.phone);
         self.company = ko.observable(initialData.company);
 
-        
-     self.saveContact = function () {
-    var contactData = {
-        ContactId: self.contactId(),
-        Name: self.name(),
-        Email: self.email(),
-        Phone: self.phone(),
-        Company: self.company()
-    };
+        self.errorMessage = ko.observable('');
 
-    $.ajax({
-        url: '/Contacts/Edit/' + contactData.ContactId,
-        type: 'PUT',
-        contentType: 'application/json', // Set the correct content type
-        data: JSON.stringify(contactData), // Convert to JSON string
-        success: function () {
-            Swal.fire({
-                title: 'Success!',
-                text: 'Contact updated successfully.',
-                icon: 'success',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'OK'
-            }).then(() => {
-                window.location.href = '/Contacts/GetAllContacts';
-            });
-        },
-        error: function (xhr) {
-            alert("Error updating contact: " + xhr.responseText);
-        }
-    });
-};
+        self.saveContact = async function () {
+            let contactData = {
+                ContactId: self.contactId(),
+                Name: self.name(),
+                Email: self.email(),
+                Phone: self.phone(),
+                Company: self.company()
+            };
 
+            try {
+                const response = await fetch('/Contacts/Edit/' + contactData.ContactId, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(contactData)
+                });
 
+                if (response.ok) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Contact updated successfully.',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        window.location.href = '/Contacts/GetAllContacts';
+                    });
+                } else if (response.status === 409) {
+                    self.errorMessage("A contact with the same details already exists.");
+                } else {
+                    const errorData = await response.json();
+                    self.errorMessage("Failed to update contact: " + (errorData.message || "Unknown error"));
+                }
+            } catch (error) {
+                self.errorMessage("Error: " + error.message);
+            }
+        };
     }
 
     // Initialize the ViewModel with the server-side data

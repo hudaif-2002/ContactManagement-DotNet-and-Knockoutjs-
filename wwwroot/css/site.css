@@ -20,3 +20,40 @@ html {
 body {
   margin-bottom: 60px;
 }*/
+
+.signup-page {
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.signup-container {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-page {
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+
+/* SweetAlert2 button spacing */
+.swal2-btn-spacing .swal2-confirm,
+.swal2-btn-spacing .swal2-cancel {
+    margin: 0 10px; /* Adds horizontal spacing between buttons */
+}
+
+
+

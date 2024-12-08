@@ -1,55 +1,34 @@
 ﻿@{
     Layout = null;
-}
+    }
+ <link rel="stylesheet" href="~/css/site.css"   />
 
- 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<style>
-        body {
-            background-color: #f8f9fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
 
-        .signup-container {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-        }
-
-          
-
-     
-    </style>
- 
-
+<body class="signup-page">
     <div class="signup-container" data-bind="with: signupViewModel">
         <h2 class="text-center mb-4 text-dark">Signup</h2>
 
     <form data-bind="submit: submitSignup">
         <div class="form-group">
             <label for="FullName">Full Name</label>
-            <input type="text" class="form-control" id="FullName" placeholder="Enter your full name"
-                   data-bind="value: fullName"
-                   pattern="[a-zA-Z\s]+"
-                   @* title="Only letters and spaces are allowed" *@
-                   oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g,'')"
+            <input type="text"
+                   class="form-control"
+                   id="FullName"
+                       data-bind="value: fullName"
+                   placeholder="Enter your full name"
+                   oninput="validateFullName(this)" 
                    required />
+            <div id="error-message" class="text-danger" style="display: none;"></div>
         </div>
             
         <div class="form-group">
             <label for="Email">Email</label>
             <input type="email" class="form-control" id="Email" placeholder="Enter your email"
                    data-bind="value: email"
-                  
+                  required
                     />
             <small id="emailError" class="form-text text-danger"></small>
         </div>
@@ -72,7 +51,9 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.js"></script>
+     <script src="./js/site.js"></script>
     
     
     <script> 
@@ -93,7 +74,7 @@
                     email: self.email(),
                     passwordHash: self.password()  
                 };
-
+                console.log(data);
                 try {
                     const response = await fetch('/auth/signup', {
                         method: 'POST',
@@ -120,8 +101,6 @@
                 } finally {
                     self.isSubmitting(false);
                 }
-            
-
             };
         }
 
@@ -129,6 +108,50 @@
         const signupViewModel = new SignupViewModel();
         ko.applyBindings({ signupViewModel });
     </script>
-  
 
+    <script>
+function validateFullName(input) {
+    const errorMessage = document.getElementById('error-message');
+    const submitButton = document.querySelector('.btn-primary'); // Select the submit button
+    const value = input.value;
+
+    // Clear previous error message
+    errorMessage.style.display = 'none';
+    errorMessage.textContent = '';
+    submitButton.disabled = false; // Enable button initially
+
+    // Replace any characters that are not letters or spaces
+    input.value = value.replace(/[^a-zA-Z ]+/g, '');
+
+    // Check if the input is empty or does not contain at least one alphabet
+    if (input.value.trim() === '' || !/[a-zA-Z]/.test(input.value)) {
+        errorMessage.textContent = 'Please enter at least one alphabetic character.';
+        errorMessage.style.display = 'block';
+        submitButton.disabled = true; // Disable button if validation fails
+    }
+}function validateFullName(input) {
+    const errorMessage = document.getElementById('error-message');
+    const submitButton = document.querySelector('.btn-primary'); // Select the submit button
+    const value = input.value;
+
+    // Clear previous error message
+    errorMessage.style.display = 'none';
+    errorMessage.textContent = '';
+    submitButton.disabled = false; // Enable button initially
+
+    // Replace any characters that are not letters or spaces
+    input.value = value.replace(/[^a-zA-Z ]+/g, '');
+
+    // Check if the input is empty or does not contain at least one alphabet
+    if (input.value.trim() === '' || !/[a-zA-Z]/.test(input.value)) {
+        errorMessage.textContent = 'Please enter at least one alphabetic character.';
+        errorMessage.style.display = 'block';
+        submitButton.disabled = true; // Disable button if validation fails
+    }
+}
+
+
+</script>
+  
+</body>
  

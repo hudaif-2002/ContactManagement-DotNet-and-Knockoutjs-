@@ -3,16 +3,9 @@
     Layout = "_Layout";
 }
 
-<style>
-    .swal2-btn-spacing .swal2-confirm,
-    .swal2-btn-spacing .swal2-cancel {
-        margin: 0 10px; /* Adds horizontal spacing between buttons */
-    }
-</style>
+ 
 
 <h2>My Contacts</h2>
-
- 
 <div class="mb-3">
     <input type="text" id="searchBox" class="form-control" placeholder="Search contacts..." data-bind="value: searchQuery, valueUpdate: 'input'">
 </div>
@@ -200,7 +193,3 @@
 
     ko.applyBindings(new ContactViewModel());
 </script> 
-
-
-
-  
